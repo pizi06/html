@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>转盘</title>
+    <style>
+        #jq22{
+            position: relative;
+            width: 780px;
+            height: 390px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            background: url(images/ly-plate-c.gif) 20px 20px no-repeat;
+        }
+        .plate {
+            position: relative;
+            float: left;
+            width: 390px;
+            height: 390px;
+            background-image: url(images/lyplate.png);
+        }
+        .prize {
+            float: right;
+            width: 360px;
+            height: 390px;
+            font: 14px/1.5 "Microsoft Yahei";
+        }
+        .prize h4 {
+            margin: 80px 0 20px;
+            padding: 10px;
+            background-color: #eee;
+        }
+        .prize ul {
+            list-style-type: none;
+        }
+        .prize li {
+            margin: 10px;
+        }
+        #plateBtn {
+            position: absolute;
+            left: 88px;
+            top: 88px;
+            width: 214px;
+            height: 214px;
+            background-image: url(images/rotate-static.png);
+            text-indent: -9999px;
+            overflow: hidden;
+        }
+        #result {
+            display: none;
+            position: absolute;
+            left: 65px;
+            top: 116px;
+            width: 300px;
+            height: 200px;
+            filter: alpha(opacity=90);
+        }
+        #resultTxt {
+            padding: 200px 15px 0;
+            font: 16px "Microsoft Yahei";
+            color: #fff;
+            text-align: center;
+        }
+        #resultTxt em {
+            color: #ffea76;
+            font-style: normal;
+        }
+        #resultBtn {
+            position: absolute;
+            right: 5px;
+            top: 5px;
+            width: 25px;
+            height: 25px;
+            text-indent: -100px;
+            background-image: url(images/close.png);
+            overflow: hidden;
+        }
+    </style>
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="js/jquery.rotate.min.js"></script>
+
+  </head>
+  <body ontouchstart>
+    <div id="jq22">
+        <div class="plate">
+            <a id="plateBtn" href="javascript:" title="START">开始抽奖</a>
+        </div>
+        
+        
+        <div id="result">
+            <p id="resultTxt"></p>
+            <a id="resultBtn" href="javascript:" title="close">CLOSE</a>
+        </div>
+    </div>
+    <script>
+        $(function(){
+            var $plateBtn = $('#plateBtn');
+            var $result = $('#result');
+            var $resultTxt = $('#resultTxt');
+            var $resultBtn = $('#resultBtn');
+         
+            $plateBtn.click(function(){
+                var data = [0, 1, 2, 3, 4, 5, 6, 7];
+                data = data[Math.floor(Math.random()*data.length)];
+                switch(data){
+                    case 1: 
+                        rotateFunc(1,157,'images/manman1.png');
+                        break;
+                    case 2: 
+                        rotateFunc(2,65,'images/manman2.png');
+                        break;
+                    case 3: 
+                        rotateFunc(3,335,'images/manman3.png');
+                        break;
+                    case 4: 
+                        rotateFunc(4,247,'images/manman4.png');
+                        break;
+                    case 5: 
+                        rotateFunc(5,114,'images/manman5.png');
+                        break;
+                    case 6: 
+                        rotateFunc(6,24,'images/manman6.png');
+                        break;
+                    case 7: 
+                        rotateFunc(7,292,'images/manman7.png');
+                        break;
+                    default:
+                        rotateFunc(0,203,'images/manman.png');
+                }
+            });
+         
+            var rotateFunc = function(awards,angle,text){  //awards:奖项，angle:奖项对应的角度
+                $plateBtn.stopRotate();
+                $plateBtn.rotate({
+                    angle: 0,
+                    duration: 5000,
+                    animateTo: angle + 1440,  //angle是图片上各奖项对应的角度，1440是让指针固定旋转4圈
+                    callback: function(){
+                        $resultTxt.html("");
+                        $result.css('background-image', 'url(' + text + ')');
+                        $result.show();
+                    }
+                });
+            };
+         
+            $resultBtn.click(function(){
+                $result.hide();
+            });
+        });
+    </script>
+  </body>
+</html>
